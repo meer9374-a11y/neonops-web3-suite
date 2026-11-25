@@ -1,0 +1,159 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "NeonOracle x402 Machine-to-Machine (M2M) Crypto Risk & Arbitrage API",
+    "version": "2.0.0",
+    "description": "HTTP 402 Pay-Per-Call Micro-API for autonomous AI trading agents, LangChain tools, and quant bots. Pay 0.25 USDC per call or 19.00 USDC for a 24h session key on Base or Solana."
+  },
+  "servers": [
+    {
+      "url": "https://meer9374-a11y.github.io/neonops-web3-suite"
+    }
+  ],
+  "paths": {
+    "/api/v1/intel": {
+      "get": {
+        "operationId": "getPaidM2MTokenIntel",
+        "summary": "Unlimited Paid M2M Token Security, DEX Slippage Sizing & Perp Funding Arbitrage Oracle",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "0x4200000000000000000000000000000000000006"
+            }
+          },
+          {
+            "name": "chain",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "base",
+                "ethereum",
+                "arbitrum",
+                "polygon",
+                "solana"
+              ],
+              "default": "base"
+            }
+          },
+          {
+            "name": "symbol",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "ETH"
+            }
+          },
+          {
+            "name": "notional_usd",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "default": 10000
+            }
+          },
+          {
+            "name": "X-Payment-Tx-Hash",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Confirmed Base/Arbitrum/Polygon/Solana USDC transaction hash (>= 0.25 USDC)"
+          },
+          {
+            "name": "X-Payment-Chain",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "base",
+                "arbitrum",
+                "polygon",
+                "solana"
+              ],
+              "default": "base"
+            }
+          },
+          {
+            "name": "X-API-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "24-hour session key (nk_live_24h_...) issued automatically after a >= 19 USDC payment"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verified M2M Intelligence & Quant Sizing Payload (schema neon-m2m-oracle/2.0)"
+          },
+          "402": {
+            "description": "HTTP 402 Payment Required — JSON specification with USDC wallet addresses and pricing"
+          }
+        }
+      }
+    },
+    "/api/v1/preview": {
+      "get": {
+        "operationId": "getFreePreviewM2MTokenIntel",
+        "summary": "Rate-Limited Free Preview Endpoint (3 calls/day per IP)",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "0x4200000000000000000000000000000000000006"
+            }
+          },
+          {
+            "name": "chain",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "base"
+            }
+          },
+          {
+            "name": "symbol",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "ETH"
+            }
+          },
+          {
+            "name": "notional_usd",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "default": 10000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Free Preview M2M Payload with remaining daily quota"
+          },
+          "402": {
+            "description": "Free preview quota exhausted (3/3 used today) — upgrade to /api/v1/intel"
+          }
+        }
+      }
+    }
+  }
+}
