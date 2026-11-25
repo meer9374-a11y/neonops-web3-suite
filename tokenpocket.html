@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TokenPocket Transfer Fee Simulator — Solana Gas-Free &amp; TRON USDT/USDD Fee Estimator</title>
+  <meta name="description" content="Interactive guide and fee simulator for TokenPocket's Daily Free Transfers on Solana (3/day for SPL tokens) and Pay Network Fees with USDT/USDD on TRON." />
+  <style>
+    :root { --bg:#070b14; --card:#101729; --border:#1e2d4a; --accent:#2980fe; --cyan:#00e5ff; --green:#10b981; --amber:#f59e0b; --text:#eef2ff; --muted:#94a3b8; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Inter',system-ui,sans-serif; background:radial-gradient(circle at top,#132347 0%,var(--bg) 60%); color:var(--text); line-height:1.6; padding:2rem 1.25rem 4rem; }
+    .container { max-width:1080px; margin:0 auto; }
+    header { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; padding-bottom:1.25rem; border-bottom:1px solid var(--border); margin-bottom:2rem; }
+    a { color:var(--cyan); text-decoration:none; }
+    .badge { display:inline-block; background:rgba(0,229,255,0.12); border:1px solid rgba(0,229,255,0.35); color:var(--cyan); padding:0.3rem 0.85rem; border-radius:999px; font-size:0.8rem; font-weight:700; margin-bottom:0.75rem; }
+    h1 { font-size:clamp(1.75rem,3.5vw,2.5rem); margin-bottom:0.5rem; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:1.5rem; margin:1.75rem 0; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.5rem; }
+    .card h2 { font-size:1.22rem; color:var(--cyan); margin-bottom:0.85rem; }
+    label { display:block; font-size:0.82rem; color:var(--muted); margin:0.75rem 0 0.3rem; font-weight:600; }
+    select, input { width:100%; background:#090e1a; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.6rem 0.75rem; font-size:0.92rem; }
+    .result-box { margin-top:1.1rem; padding:1rem; border-radius:12px; background:#090e1a; border:1px solid var(--border); }
+    .status-free { color:var(--green); font-weight:800; font-size:1.15rem; }
+    .status-std { color:var(--amber); font-weight:800; font-size:1.15rem; }
+    table { width:100%; border-collapse:collapse; margin-top:1rem; font-size:0.88rem; }
+    th, td { border-bottom:1px solid var(--border); padding:0.65rem 0.5rem; text-align:left; }
+    th { color:var(--muted); font-size:0.76rem; text-transform:uppercase; }
+    ul { margin-left:1.2rem; color:var(--muted); font-size:0.9rem; }
+    li { margin-bottom:0.4rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div><strong>NeonOps</strong> &times; <strong>TokenPocket</strong> Transfer Feature Explorer</div>
+      <nav style="display:flex;gap:1rem;font-size:0.9rem;">
+        <a href="./index.html">&larr; Back to Suite</a>
+        <a href="https://tokenpocket.pro/" target="_blank" rel="noopener">TokenPocket Official</a>
+        <a href="https://x.com/TokenPocket_TP/status/2118610097987596552" target="_blank" rel="noopener">Video Tutorial &nearr;</a>
+      </nav>
+    </header>
+
+    <span class="badge">Interactive Guide &bull; Based on Official TokenPocket Docs</span>
+    <h1>Eliminating the Native Gas Barrier on Solana &amp; TRON</h1>
+    <p style="color:var(--muted);">Holding stablecoins (`USDT`, `USDC`, `USDD`) without enough native `$SOL` or `$TRX` for gas is one of Web3's biggest UX bottlenecks. Use the interactive simulator below to verify exact eligibility rules and fee-payment mechanics in TokenPocket.</p>
+
+    <div class="grid">
+      <!-- SOLANA SIMULATOR -->
+      <div class="card">
+        <h2>1. Solana Daily Gas-Free Transfer Simulator</h2>
+        <p style="color:var(--muted);font-size:0.88rem;">Requires TokenPocket <strong>Android v2.9.0+</strong> or <strong>iOS v2.11.0+</strong>.</p>
+        <label>Token Being Transferred</label>
+        <select id="sol-token" onchange="calcSol()">
+          <option value="SPL_USDT">SPL Token — USDT / USDC / JUP / SPL Assets</option>
+          <option value="NATIVE_SOL">Native $SOL Token</option>
+        </select>
+        <label>How Many Transfers Made Today on This Account?</label>
+        <select id="sol-count" onchange="calcSol()">
+          <option value="1">1st Transfer of the Day (1 / 3)</option>
+          <option value="2">2nd Transfer of the Day (2 / 3)</option>
+          <option value="3">3rd Transfer of the Day (3 / 3)</option>
+          <option value="4">4th+ Transfer Today (Quota Exceeded)</option>
+        </select>
+        <label>Selected Fee Payment Token in TokenPocket</label>
+        <select id="sol-fee-token" onchange="calcSol()">
+          <option value="SOL">SOL (Default)</option>
+          <option value="USDT">USDT</option>
+          <option value="USDC">USDC</option>
+        </select>
+        <div class="result-box" id="sol-result"></div>
+      </div>
+
+      <!-- TRON SIMULATOR -->
+      <div class="card">
+        <h2>2. TRON Zero-TRX Token Fee &amp; Subsidy Simulator</h2>
+        <p style="color:var(--muted);font-size:0.88rem;">Pay TRON fees with <strong>USDT</strong> or <strong>USDD</strong> (v2.8.0+) + Energy Rental &amp; Coupons.</p>
+        <label>Selected Fee Payment Method (`[Pay With]`)</label>
+        <select id="tron-pay" onchange="calcTron()">
+          <option value="USDT">USDT (Transfer TRC20-USDT with 0 TRX)</option>
+          <option value="USDD">USDD (Pay TRON Gas in USDD + 1:1 PSM Swap)</option>
+        </select>
+        <label>Subsidy / Coupon / Energy Rental Mode</label>
+        <select id="tron-mode" onchange="calcTron()">
+          <option value="SUBSIDY">Daily TRON Subsidy Claimed (from 3,240/day pool)</option>
+          <option value="COUPON">Official Fee Coupon Applied (up to 3/day, 10-min window)</option>
+          <option value="ENERGY">Energy Rental + Token Fee (Dynamic Resource Pricing)</option>
+        </select>
+        <label>Wallet &amp; Recipient Activation Status</label>
+        <select id="tron-state" onchange="calcTron()">
+          <option value="ACTIVE_HAS_USDT">Sender Active + Recipient Already Holds USDT</option>
+          <option value="ACTIVE_EMPTY">Sender Active + Recipient Holds 0 USDT (Higher Energy)</option>
+          <option value="INACTIVE">Sender Wallet Unactivated on TRON</option>
+        </select>
+        <div class="result-box" id="tron-result"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Side-by-Side Technical Specification Matrix</h2>
+      <table>
+        <thead>
+          <tr><th>Feature</th><th>Solana Gas-Free Service</th><th>TRON Token Fee &amp; Energy System</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Core Problem Solved</strong></td><td>Send SPL tokens even with 0 SOL or without burning SOL</td><td>Send TRC20-USDT / USDD with 0 TRX in wallet</td></tr>
+          <tr><td><strong>Min App Version</strong></td><td>Android v2.9.0+ / iOS v2.11.0+</td><td>iOS &amp; Android v2.8.0+ (USDD Gas &amp; USDT Fee)</td></tr>
+          <tr><td><strong>Supported Fee Tokens</strong></td><td><code>SOL</code>, <code>USDT</code>, or <code>USDC</code> (shows <strong>Gas-Free</strong> within limit)</td><td><code>USDT</code>, <code>USDD</code>, or <code>TRX</code> (via Energy Rental)</td></tr>
+          <tr><td><strong>Daily Quota / Subsidy</strong></td><td><strong>3 gas-free SPL transfers / account / day</strong></td><td><strong>3,240 daily subsidized transfers</strong> + up to <strong>3 Coupons/day</strong></td></tr>
+          <tr><td><strong>Key Exclusions &amp; Rules</strong></td><td><strong>Native <code>$SOL</code> transfers are excluded</strong> (SPL tokens only)</td><td>Fee is dynamic (depends on Energy/Bandwidth &amp; recipient USDT state); inactive wallets cannot use Coupons until activated</td></tr>
+          <tr><td><strong>Official Documentation</strong></td><td><a href="https://help.tokenpocket.pro/en/wallet-faq-en/solana-wallet/gas-free-service-on-solana" target="_blank">Solana Gas-Free FAQ &nearr;</a></td><td><a href="https://help.tokenpocket.pro/en/wallet-faq-en/tron-wallet/usdt-as-network-fee" target="_blank">USDT Fee FAQ &nearr;</a> &bull; <a href="https://help.tokenpocket.pro/en/wallet-faq-en/tron-wallet/usdd-gas" target="_blank">USDD Gas FAQ &nearr;</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function calcSol() {
+      const tok = document.getElementById('sol-token').value;
+      const cnt = Number(document.getElementById('sol-count').value);
+      const feeTok = document.getElementById('sol-fee-token').value;
+      const out = document.getElementById('sol-result');
+      if (tok === 'NATIVE_SOL') {
+        out.innerHTML = `<div class="status-std">Standard Network Fee Applies</div>
+          <p style="font-size:0.86rem;color:var(--muted);margin-top:0.35rem;">Per official TokenPocket docs, <strong>native $SOL transfers are excluded</strong> from the daily gas-free subsidy. Only SPL token transfers (e.g., USDT, USDC) qualify.</p>`;
+      } else if (cnt <= 3) {
+        out.innerHTML = `<div class="status-free">GAS-FREE ($0.00 Network Fee)</div>
+          <p style="font-size:0.86rem;color:var(--muted);margin-top:0.35rem;">Transfer #${cnt} of 3 today qualifies! In TokenPocket, select <strong>${feeTok}</strong> as the fee payment method — the confirmation screen displays <strong>"Gas-Free"</strong>.</p>`;
+      } else {
+        out.innerHTML = `<div class="status-std">Daily 3/3 Gas-Free Quota Reached</div>
+          <p style="font-size:0.86rem;color:var(--muted);margin-top:0.35rem;">After 3 gas-free SPL transfers in a day, subsequent transfers pay standard Solana network fees in your chosen fee token (${feeTok}). Quota resets daily.</p>`;
+      }
+    }
+
+    function calcTron() {
+      const pay = document.getElementById('tron-pay').value;
+      const mode = document.getElementById('tron-mode').value;
+      const state = document.getElementById('tron-state').value;
+      const out = document.getElementById('tron-result');
+      if (state === 'INACTIVE' && mode === 'COUPON') {
+        out.innerHTML = `<div class="status-std">Account Activation Required First</div>
+          <p style="font-size:0.86rem;color:var(--muted);margin-top:0.35rem;">Per official Coupon rules, <strong>inactive TRON wallets cannot use Fee Coupons</strong>. Complete on-chain account activation first (TokenPocket supports ${pay} gas payment for activation + transfer).</p>`;
+      } else if (mode === 'SUBSIDY' || mode === 'COUPON') {
+        const label = mode === 'SUBSIDY' ? 'Daily TRON Subsidy (3,240/day pool)' : 'Fee Coupon (up to 3/day, valid 10 mins after activation)';
+        out.innerHTML = `<div class="status-free">Up to 100% Fee Discount (${pay} Gas)</div>
+          <p style="font-size:0.86rem;color:var(--muted);margin-top:0.35rem;">Using <strong>${label}</strong> with <strong>0 TRX required</strong>. Confirm the fee quote updates to <code>0</code> before tapping <strong>[Confirm]</strong>.</p>`;
+      } else {
+        const extra = state === 'ACTIVE_EMPTY'
+          ? 'Note: Recipient holds 0 USDT, which requires ~2x TRON Energy compared to an address already holding USDT.'
+          : 'Recipient already holds USDT, minimizing TRON Energy required.';
+        out.innerHTML = `<div class="status-free">Zero-TRX Transfer via ${pay} + Energy Rental</div>
+          <p style="font-size:0.86rem;color:var(--muted);margin-top:0.35rem;">No TRX needed! Network fees are settled dynamically in <strong>${pay}</strong> while Energy Rental lowers resource burn. ${extra}</p>`;
+      }
+    }
+    calcSol();
+    calcTron();
+  </script>
+</body>
+</html>
