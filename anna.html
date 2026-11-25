@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anna AI Messenger — Interactive Multi-Agent Thread Architecture &amp; Visual Showcase</title>
+  <meta name="description" content="Original visual architecture diagram and interactive workflow simulator exploring Anna AI Messenger (annaos.ai) by Causis Research." />
+  <style>
+    :root { --bg:#080b12; --card:#111726; --border:#1f2b46; --accent:#38bdf8; --violet:#a855f7; --green:#10b981; --amber:#f59e0b; --text:#f1f5f9; --muted:#94a3b8; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Inter',system-ui,sans-serif; background:radial-gradient(circle at top,#16203a 0%,var(--bg) 60%); color:var(--text); line-height:1.6; padding:2rem 1.25rem 4rem; }
+    .container { max-width:1100px; margin:0 auto; }
+    header { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; padding-bottom:1.25rem; border-bottom:1px solid var(--border); margin-bottom:2rem; }
+    a { color:var(--accent); text-decoration:none; }
+    .badge { display:inline-block; background:rgba(168,85,247,0.15); border:1px solid rgba(168,85,247,0.4); color:#d8b4fe; padding:0.3rem 0.85rem; border-radius:999px; font-size:0.78rem; font-weight:700; margin-bottom:0.75rem; }
+    h1 { font-size:clamp(1.8rem,3.6vw,2.6rem); line-height:1.18; margin-bottom:0.6rem; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:1.5rem; margin-bottom:1.5rem; }
+    .card h2 { font-size:1.25rem; color:var(--accent); margin-bottom:0.85rem; }
+    .hero-img { width:100%; border-radius:12px; border:1px solid var(--border); display:block; margin-top:0.75rem; }
+    .sim-controls { display:flex; gap:0.75rem; flex-wrap:wrap; margin-bottom:1.25rem; }
+    .btn { background:#1e293b; color:var(--text); border:1px solid var(--border); padding:0.6rem 1.1rem; border-radius:10px; font-weight:700; cursor:pointer; font-size:0.9rem; }
+    .btn.active { background:linear-gradient(135deg,var(--accent),var(--violet)); color:#060b14; border-color:transparent; }
+    .thread-box { background:#090d16; border:1px solid var(--border); border-radius:12px; padding:1.25rem; }
+    .msg { padding:0.85rem 1rem; border-radius:10px; margin-bottom:0.75rem; background:#121a2d; border-left:4px solid var(--accent); }
+    .msg.human { border-left-color:var(--green); }
+    .msg.anna { border-left-color:var(--violet); }
+    .msg.gate { border-left-color:var(--amber); background:rgba(245,158,11,0.08); }
+    .role { font-size:0.76rem; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); margin-bottom:0.25rem; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:1rem; }
+    .stat { background:#090d16; border:1px solid var(--border); border-radius:12px; padding:1rem; }
+    .stat h3 { font-size:1rem; color:#d8b4fe; margin-bottom:0.35rem; }
+    .stat p { font-size:0.88rem; color:var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div><strong>Original Visual &amp; Interactive Asset Showcase</strong> &bull; Anna AI Messenger (@annaos_ai)</div>
+      <nav style="display:flex;gap:1rem;font-size:0.9rem;">
+        <a href="https://annaos.ai/" target="_blank" rel="noopener">Join Anna Waitlist (annaos.ai) &nearr;</a>
+        <a href="https://causisresearch.com/" target="_blank" rel="noopener">Causis Research &nearr;</a>
+      </nav>
+    </header>
+
+    <span class="badge">Promotional Competition Entry &bull; Built from Public Architecture Specs (Private Preview)</span>
+    <h1>"Humans Manage Anna, and Anna Manages the AI"</h1>
+    <p style="color:var(--muted);margin-bottom:1.5rem;">Why today's fragmented chatbot workflow breaks at scale — and how <strong>Anna AI Messenger</strong> (<a href="https://annaos.ai/" target="_blank">annaos.ai</a>) by <strong>Causis Research</strong> (@causisresearch / @notinvariant) turns multi-agent orchestration into a single unified conversation thread.</p>
+
+    <div class="card">
+      <h2>1. Original Visual Architecture Diagram (1200&times;675 High-Res Graphic)</h2>
+      <p style="color:var(--muted);font-size:0.9rem;">Direct comparison between legacy fragmented AI prompting (where the human acts as the manual context-router) and Anna's unified thread orchestration.</p>
+      <img class="hero-img" src="./anna_architecture.png" alt="Anna AI Messenger Multi-Agent Orchestration Diagram" />
+      <p style="margin-top:0.65rem;font-size:0.84rem;color:var(--muted);">Direct PNG Asset Link: <a href="./anna_architecture.png" target="_blank">https://meer9374-a11y.github.io/neonops-web3-suite/anna_architecture.png</a></p>
+    </div>
+
+    <div class="card">
+      <h2>2. Interactive 3-Step Workflow Simulator (Conceptual Model from annaos.ai)</h2>
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:1rem;">Select a real-world mission depicted on <code>annaos.ai</code> to see how Anna coordinates specialized AI colleagues (<em>Scheduler, Recruiter, Analyst, Designer</em>) in parallel and surfaces only decision checkpoints to humans:</p>
+      <div class="sim-controls">
+        <button class="btn active" onclick="loadScenario('investor', this)">Scenario A: Draft Investor Update</button>
+        <button class="btn" onclick="loadScenario('hire', this)">Scenario B: Hiring a Lead Designer</button>
+        <button class="btn" onclick="loadScenario('launch', this)">Scenario C: Coordinate Launch Crew</button>
+      </div>
+      <div class="thread-box" id="sim-thread"></div>
+    </div>
+
+    <div class="card">
+      <h2>3. Core Architectural Differentiation</h2>
+      <div class="grid">
+        <div class="stat">
+          <h3>Zero Context-Juggling</h3>
+          <p>Instead of copy-pasting outputs across 5 separate AI tabs, humans speak naturally in one thread while Anna delegates sub-tasks behind the scenes.</p>
+        </div>
+        <div class="stat">
+          <h3>Parallel AI Colleagues</h3>
+          <p>Anna dynamically spins up specialized AI roles (Analyst, Designer, Recruiter, Scheduler) that collaborate asynchronously toward the thread's goal.</p>
+        </div>
+        <div class="stat">
+          <h3>Exception-Based Human Pull-In</h3>
+          <p>You aren't spammed with intermediate chain-of-thought noise. Anna pulls humans in only when high-leverage decisions or approvals are needed.</p>
+        </div>
+        <div class="stat">
+          <h3>Causis Research Foundation</h3>
+          <p>Engineered by Causis Research (@causisresearch / @notinvariant), focusing on continuous learning and multi-agent systems rather than thin chat wrappers.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SCENARIOS = {
+      investor: [
+        { cls: 'human', role: 'Step 1 • Human Lead -> Anna', text: '"Anna, draft our Q4 investor update using the latest KPI metrics, prepare the revenue chart visual, and schedule the review call with our lead partners."' },
+        { cls: 'anna', role: 'Step 2 • Anna Orchestrates Specialized AI Team (Parallel Execution)', text: 'Anna assigns [Analyst AI] to reconcile Q4 KPI delta & retention tables, [Designer AI] to generate the visual KPI deck cards, and [Scheduler AI] to cross-check partner calendar availability.' },
+        { cls: 'gate', role: 'Step 3 • Decision Surface (Human Pulled In Only for Approval)', text: 'Anna: "Q4 Investor Update draft + 3 KPI visuals are ready. Should we highlight the 38% net retention expansion in the opening paragraph before I send calendar invites for Thursday 10am PT?" [Approve & Send]' }
+      ],
+      hire: [
+        { cls: 'human', role: 'Step 1 • Human Lead -> Anna', text: '"Anna, we need a senior product designer for our mobile release. Filter portfolios for strong interaction design and set up 3 intro interviews this week."' },
+        { cls: 'anna', role: 'Step 2 • Anna Orchestrates Specialized AI Team (Parallel Execution)', text: 'Anna assigns [Recruiter AI] to screen 42 candidate portfolios against interaction rubrics, [Designer AI] to summarize top 5 design system samples, and [Scheduler AI] to hold 30-min interview slots.' },
+        { cls: 'gate', role: 'Step 3 • Decision Surface (Human Pulled In Only for Approval)', text: 'Anna: "Shortlisted top 3 candidates with side-by-side portfolio breakdowns. Approve this shortlist to trigger outreach and lock Friday interview slots?" [Approve Shortlist]' }
+      ],
+      launch: [
+        { cls: 'human', role: 'Step 1 • Human Lead -> Anna', text: '"Anna, coordinate the product launch crew: align the release notes, landing page hero assets, and press outreach timeline."' },
+        { cls: 'anna', role: 'Step 2 • Anna Orchestrates Specialized AI Team (Parallel Execution)', text: 'Anna coordinates [Analyst AI] on benchmark claims, [Designer AI] on launch graphics, and [Scheduler AI] on T-48h embargo checkpoints across the human + AI crew.' },
+        { cls: 'gate', role: 'Step 3 • Decision Surface (Human Pulled In Only for Approval)', text: 'Anna: "All launch assets and release notes are synchronized. Final sign-off needed on the hero headline before locking the Tuesday 9am UTC rollout." [Sign Off]' }
+      ]
+    };
+
+    function loadScenario(key, btn) {
+      document.querySelectorAll('.sim-controls .btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const box = document.getElementById('sim-thread');
+      box.innerHTML = SCENARIOS[key].map(m =>
+        `<div class="msg ${m.cls}"><div class="role">${m.role}</div><div>${m.text}</div></div>`
+      ).join('');
+    }
+    loadScenario('investor', document.querySelector('.sim-controls .btn'));
+  </script>
+</body>
+</html>
