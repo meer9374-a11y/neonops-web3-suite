@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Technical Playbooks &amp; On-Chain Engineering Cheat Sheets | NeonOps Publishing</title>
+  <meta name="description" content="Actionable digital guides, Web3 RPC automation playbooks, and zero-KYC micro-SaaS blueprints. Instant printable PDF view with direct on-chain micro-payments." />
+  <style>
+    :root { --bg:#0a0d14; --card:#121826; --border:#1f2a40; --accent:#00e5ff; --green:#10b981; --text:#e6edf7; --muted:#8b9bb4; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+    .container { max-width:1080px; margin:0 auto; padding:1.5rem 1.25rem 4rem; }
+    header { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; padding-bottom:1rem; border-bottom:1px solid var(--border); margin-bottom:1.5rem; }
+    a { color:var(--accent); text-decoration:none; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px,1fr)); gap:1.5rem; margin-bottom:2rem; }
+    .book { background:var(--card); border:1px solid var(--border); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; }
+    .cover { width:100%; height:190px; display:block; }
+    .body { padding:1.35rem; flex:1; display:flex; flex-direction:column; justify-content:space-between; }
+    .price { color:var(--green); font-weight:800; font-size:1.15rem; margin:0.4rem 0; }
+    .muted { color:var(--muted); font-size:0.9rem; margin-bottom:0.85rem; }
+    .btn { background:var(--accent); color:#06101c; border:none; border-radius:8px; padding:0.6rem 1rem; font-weight:800; cursor:pointer; margin-right:0.5rem; }
+    .btn.sec { background:#1d283d; color:var(--text); border:1px solid var(--border); }
+    .reader { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.75rem; margin-top:1.5rem; }
+    pre { background:#0c111d; border:1px solid var(--border); border-radius:8px; padding:1rem; overflow-x:auto; font-size:0.84rem; margin:0.85rem 0; }
+    h2 { color:var(--accent); margin:1rem 0 0.5rem; }
+    h3 { margin:1rem 0 0.4rem; }
+    ul { margin:0.5rem 0 1rem 1.25rem; }
+    @media print {
+      header, .grid, .no-print { display:none !important; }
+      body, .reader { background:#fff !important; color:#000 !important; border:none !important; }
+      pre { background:#f4f4f4 !important; color:#000 !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div><strong>NeonOps</strong> &rsaquo; Digital Playbooks &amp; Cheat Sheets</div>
+      <nav style="display:flex;gap:1rem;font-size:0.9rem;">
+        <a href="./index.html">&larr; Home</a>
+        <a href="../utilities.html">Utilities</a>
+        <a href="../alpha.html">Funding Alpha</a>
+        <a href="../tools.html">Micro-SaaS</a>
+      </nav>
+    </header>
+
+    <h1 class="no-print">Instant Engineering Playbooks &amp; On-Chain Cheat Sheets</h1>
+    <p class="muted no-print">High-signal technical guides generated &amp; curated from live developer trends. Free preview below; support with a $3–$5 USDC/SOL micro-payment or print cleanly to PDF.</p>
+
+    <section class="grid">
+      <article class="book">
+        <svg class="cover" viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#0ea5e9"/>
+              <stop offset="100%" stop-color="#4f46e5"/>
+            </linearGradient>
+          </defs>
+          <rect width="600" height="240" fill="url(#g1)"/>
+          <circle cx="510" cy="50" r="95" fill="rgba(255,255,255,0.08)"/>
+          <text x="32" y="70" fill="#e0f2fe" font-family="Inter,sans-serif" font-size="16" font-weight="700">NEONOPS FIELD PLAYBOOK #01</text>
+          <text x="32" y="120" fill="#ffffff" font-family="Inter,sans-serif" font-size="30" font-weight="800">Solana &amp; Base RPC</text>
+          <text x="32" y="158" fill="#ffffff" font-family="Inter,sans-serif" font-size="30" font-weight="800">Automation Cheat Sheet</text>
+          <text x="32" y="205" fill="#bae6fd" font-family="monospace" font-size="14">Zero-Dependency Node.js v24 &bull; Mainnet Patterns</text>
+        </svg>
+        <div class="body">
+          <div>
+            <h3>Solana &amp; Base RPC Automation Cheat Sheet</h3>
+            <div class="price">$3 USDC / Free Preview</div>
+            <p class="muted">Production JSON-RPC patterns for querying balances, verifying ERC-20/SPL USDC transfers, monitoring gas spikes, and avoiding rate-limit bans.</p>
+          </div>
+          <div>
+            <button class="btn" onclick="openGuide('rpc')">Read Playbook</button>
+            <button class="btn sec" onclick="window.print()">Save / Print PDF</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="book">
+        <svg class="cover" viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#10b981"/>
+              <stop offset="100%" stop-color="#0f172a"/>
+            </linearGradient>
+          </defs>
+          <rect width="600" height="240" fill="url(#g2)"/>
+          <rect x="420" y="-20" width="220" height="280" rx="28" fill="rgba(255,255,255,0.07)"/>
+          <text x="32" y="70" fill="#d1fae5" font-family="Inter,sans-serif" font-size="16" font-weight="700">NEONOPS FIELD PLAYBOOK #02</text>
+          <text x="32" y="120" fill="#ffffff" font-family="Inter,sans-serif" font-size="30" font-weight="800">Zero-KYC Crypto Paywall</text>
+          <text x="32" y="158" fill="#ffffff" font-family="Inter,sans-serif" font-size="30" font-weight="800">&amp; Static Micro-SaaS Guide</text>
+          <text x="32" y="205" fill="#a7f3d0" font-family="monospace" font-size="14">GitHub Pages + Direct Mainnet Receipt Verification</text>
+        </svg>
+        <div class="body">
+          <div>
+            <h3>Zero-KYC Crypto Paywall &amp; Micro-SaaS Blueprint</h3>
+            <div class="price">$5 USDC / Free Preview</div>
+            <p class="muted">How to ship $0-hosting static developer tools with client-side &amp; server-side Base/Solana USDC transaction verification in under 80 lines of JS.</p>
+          </div>
+          <div>
+            <button class="btn" onclick="openGuide('paywall')">Read Playbook</button>
+            <button class="btn sec" onclick="window.print()">Save / Print PDF</button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <article class="reader" id="guide-reader">
+      <h2>Playbook #01: Solana &amp; Base RPC Automation Cheat Sheet (2026 Edition)</h2>
+      <p>Use native <code>fetch</code> in Node.js v20+ to interact directly with public EVM &amp; Solana RPC nodes without heavy SDK bloat.</p>
+
+      <h3>1. Verified Public Mainnet Endpoints (Zero API Key)</h3>
+      <ul>
+        <li><strong>Base Mainnet:</strong> <code>https://mainnet.base.org</code> (Native USDC: <code>0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913</code>)</li>
+        <li><strong>Arbitrum One:</strong> <code>https://arb1.arbitrum.io/rpc</code> (Native USDC: <code>0xaf88d065e77c8cC2239327C5EDb3A432268e5831</code>)</li>
+        <li><strong>Polygon PoS:</strong> <code>https://polygon-bor-rpc.publicnode.com</code> (Native USDC: <code>0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359</code>)</li>
+        <li><strong>Solana Mainnet:</strong> <code>https://api.mainnet-beta.solana.com</code> (USDC Mint: <code>EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v</code>)</li>
+      </ul>
+
+      <h3>2. Query ERC-20 USDC Balance via Raw <code>eth_call</code></h3>
+      <pre>// balanceOf(address) selector = 0x70a08231 + 32-byte padded address
+const selector = '0x70a08231' + address.toLowerCase().slice(2).padStart(64, '0');
+const res = await fetch('https://mainnet.base.org', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    jsonrpc: '2.0', id: 1, method: 'eth_call',
+    params: [{ to: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', data: selector }, 'latest']
+  })
+});
+const { result } = await res.json();
+const usdc = Number(BigInt(result)) / 1e6;</pre>
+
+      <h3>3. Query Solana SPL USDC Balance via <code>getTokenAccountsByOwner</code></h3>
+      <pre>const res = await fetch('https://api.mainnet-beta.solana.com', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    jsonrpc: '2.0', id: 1, method: 'getTokenAccountsByOwner',
+    params: [
+      solAddress,
+      { mint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v' },
+      { encoding: 'jsonParsed' }
+    ]
+  })
+});</pre>
+
+      <h3>4. Security Checklist Before Handling Real Funds</h3>
+      <ul>
+        <li>Never commit mnemonics, <code>.env</code>, or private keys to Git. Enforce <code>.gitignore</code> before <code>git init</code>.</li>
+        <li>Separate hot public display configs (<code>public_addresses.json</code>) from cold offline key vaults.</li>
+        <li>Always test exchange deposits with a small amount first and verify matching network (Base vs Arbitrum vs Solana).</li>
+      </ul>
+
+      <p class="no-print" style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border);color:var(--muted);font-size:0.86rem;">
+        Found this playbook valuable? Send a $3–$5 USDC/SOL micro-payment directly to support future editions:<br/>
+        <strong>SOL:</strong> <code id="g-sol">Loading...</code> &nbsp;|&nbsp; <strong>EVM:</strong> <code id="g-evm">Loading...</code>
+      </p>
+    </article>
+  </div>
+
+  <script src="./wallet-config.js"></script>
+  <script>
+    const GUIDES = {
+      rpc: document.getElementById('guide-reader').innerHTML,
+      paywall: `
+        <h2>Playbook #02: Zero-KYC Crypto Paywall &amp; Static Micro-SaaS Blueprint</h2>
+        <p>You don't need Stripe, a backend server, or monthly cloud bills to sell developer tools or playbooks for USDC.</p>
+        <h3>1. Architecture</h3>
+        <ul>
+          <li><strong>Hosting ($0/mo):</strong> GitHub Pages or Cloudflare Pages serving static HTML/JS/CSS.</li>
+          <li><strong>Payment Settlement:</strong> Direct non-custodial USDC transfer on Base, Arbitrum, Polygon, or Solana (sub-cent fees).</li>
+          <li><strong>Verification:</strong> Query <code>eth_getTransactionReceipt</code> and inspect ERC-20 <code>Transfer(address,address,uint256)</code> log topic <code>0xddf252ad...</code> matching your exact recipient address and USDC contract.</li>
+        </ul>
+        <h3>2. Why Topic Log Verification Beats Checking <code>tx.value</code></h3>
+        <p>ERC-20 transfers have <code>tx.value === 0</code>! Always parse <code>receipt.logs</code> where <code>log.address === USDC_CONTRACT</code>, <code>log.topics[0] === TRANSFER_TOPIC</code>, and <code>log.topics[2]</code> equals your 32-byte zero-padded wallet address. Also assert <code>receipt.status === '0x1'</code>.</p>
+        <h3>3. Replay Protection</h3>
+        <p>For server-backed downloads or API keys, store every redeemed <code>chain:txHash</code> in SQLite/JSON so the same transaction hash cannot be replayed twice.</p>
+      `
+    };
+    function openGuide(id) {
+      document.getElementById('guide-reader').innerHTML = GUIDES[id];
+      fillWallets();
+      document.getElementById('guide-reader').scrollIntoView({ behavior: 'smooth' });
+    }
+    function fillWallets() {
+      if (!window.NEON_WALLETS) return;
+      const s = document.getElementById('g-sol');
+      const e = document.getElementById('g-evm');
+      if (s) s.textContent = window.NEON_WALLETS.solana;
+      if (e) e.textContent = window.NEON_WALLETS.evm;
+    }
+    fillWallets();
+  </script>
+</body>
+</html>

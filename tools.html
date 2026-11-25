@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Automation Micro-SaaS &amp; On-Chain Pay-to-Unlock CLI Store | NeonOps</title>
+  <meta name="description" content="Zero-KYC Node.js automation toolkits for crypto traders and developers. Instant on-chain USDC/SOL verification unlocks direct download." />
+  <style>
+    :root { --bg:#0a0d14; --card:#121826; --border:#1f2a40; --accent:#00e5ff; --green:#10b981; --red:#ef4444; --text:#e6edf7; --muted:#8b9bb4; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }
+    .container { max-width:1100px; margin:0 auto; padding:1.5rem 1.25rem 4rem; }
+    header { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; padding-bottom:1rem; border-bottom:1px solid var(--border); margin-bottom:1.5rem; }
+    a { color:var(--accent); text-decoration:none; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(290px,1fr)); gap:1.25rem; margin-bottom:2rem; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.4rem; display:flex; flex-direction:column; justify-content:space-between; }
+    .price { font-size:1.4rem; font-weight:800; color:var(--green); margin:0.5rem 0; }
+    .muted { color:var(--muted); font-size:0.9rem; }
+    ul { margin:0.75rem 0 1.25rem 1.2rem; color:var(--muted); font-size:0.88rem; }
+    .btn { background:var(--accent); color:#06101c; border:none; border-radius:8px; padding:0.65rem 1rem; font-weight:800; cursor:pointer; width:100%; }
+    .gate { background:var(--card); border:1px solid var(--accent); border-radius:14px; padding:1.5rem; }
+    .row { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:1rem; margin:1rem 0; }
+    label { display:block; font-size:0.82rem; color:var(--muted); margin-bottom:0.35rem; font-weight:600; }
+    input, select { width:100%; background:#0c111d; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.65rem; }
+    .mono { font-family:monospace; word-break:break-all; background:#0c111d; padding:0.6rem; border-radius:8px; border:1px solid var(--border); font-size:0.84rem; margin-top:0.35rem; }
+    #verify-result { margin-top:1rem; padding:1rem; border-radius:10px; background:#0c111d; border:1px solid var(--border); white-space:pre-wrap; font-size:0.88rem; }
+    .ok { border-color:var(--green) !important; color:var(--green); }
+    .err { border-color:var(--red) !important; color:var(--red); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div><strong>NeonOps</strong> &rsaquo; Micro-SaaS &amp; On-Chain Paywall</div>
+      <nav style="display:flex;gap:1rem;font-size:0.9rem;">
+        <a href="./index.html">&larr; Home</a>
+        <a href="../utilities.html">Utilities</a>
+        <a href="../alpha.html">Funding Alpha</a>
+        <a href="../guides.html">Playbooks</a>
+      </nav>
+    </header>
+
+    <h1>Developer &amp; Trader Automation Toolkits (Pay-to-Unlock On-Chain)</h1>
+    <p class="muted" style="margin-bottom:1.5rem;">Zero Stripe/KYC friction. Send native USDC on Base/Arbitrum/Polygon or SOL on Solana, paste your TxHash below, and our live mainnet RPC verifier immediately unlocks your package.</p>
+
+    <section class="grid">
+      <article class="card">
+        <div>
+          <h3>1. Multi-Chain Gas &amp; Balance Watchdog CLI</h3>
+          <div class="price">$5 USDC</div>
+          <p class="muted">Zero-dependency Node.js v20+ daemon that watches EVM + Solana balances and gas spikes, firing instant Discord/Telegram alerts.</p>
+          <ul>
+            <li>Supports Ethereum, Base, Arbitrum, Polygon, Solana</li>
+            <li>Configurable low-gas &amp; whale-inflow thresholds</li>
+            <li>Ready for Windows Task Scheduler / Linux cron</li>
+          </ul>
+        </div>
+        <button class="btn" onclick="selectProduct('watchdog', 5)">Select ($5 USDC)</button>
+      </article>
+
+      <article class="card">
+        <div>
+          <h3>2. Perp Funding &amp; DEX Spread CSV Exporter</h3>
+          <div class="price">$9 USDC</div>
+          <p class="muted">Automated market data collector for quant researchers and delta-neutral funding traders.</p>
+          <ul>
+            <li>Pulls live Binance &amp; Bybit perpetual funding rates</li>
+            <li>Computes annualized APR &amp; cross-venue spread</li>
+            <li>Exports clean timestamped CSV &amp; JSON datasets</li>
+          </ul>
+        </div>
+        <button class="btn" onclick="selectProduct('funding-csv', 9)">Select ($9 USDC)</button>
+      </article>
+
+      <article class="card">
+        <div>
+          <h3>3. Open-Source Crypto Bounty Hunter CLI</h3>
+          <div class="price">$15 USDC</div>
+          <p class="muted">Automated bounty radar that scans GitHub bounty labels &amp; Web3 issue trackers every 15 minutes.</p>
+          <ul>
+            <li>Filters zero-stake coding bounties by language &amp; recency</li>
+            <li>Deduplicates &amp; scores reward-to-competition ratio</li>
+            <li>Outputs actionable Markdown triage reports</li>
+          </ul>
+        </div>
+        <button class="btn" onclick="selectProduct('bounty-cli', 15)">Select ($15 USDC)</button>
+      </article>
+    </section>
+
+    <section class="gate">
+      <h2>Instant On-Chain Payment Verification Gate</h2>
+      <p class="muted">1. Send the exact USDC amount on Base / Arbitrum / Polygon (or equivalent SOL on Solana) to the official recipient address below.<br/>2. Paste your confirmed Transaction Hash / Signature and click <strong>Verify On-Chain &amp; Unlock</strong>.</p>
+
+      <div class="row">
+        <div>
+          <label>Selected Product</label>
+          <select id="prod-select">
+            <option value="watchdog|5">Multi-Chain Gas &amp; Balance Watchdog CLI ($5 USDC)</option>
+            <option value="funding-csv|9">Perp Funding &amp; DEX Spread CSV Exporter ($9 USDC)</option>
+            <option value="bounty-cli|15">Open-Source Crypto Bounty Hunter CLI ($15 USDC)</option>
+          </select>
+        </div>
+        <div>
+          <label>Payment Network</label>
+          <select id="pay-chain" onchange="updateRecipient()">
+            <option value="base">Base Mainnet (USDC)</option>
+            <option value="arbitrum">Arbitrum One (USDC)</option>
+            <option value="polygon">Polygon PoS (USDC)</option>
+            <option value="solana">Solana Mainnet (USDC / SOL)</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label>Official Recipient Wallet Address</label>
+        <div class="mono" id="pay-recipient">Loading...</div>
+      </div>
+
+      <div style="margin-top:1rem;">
+        <label for="tx-hash">Confirmed Transaction Hash / Solana Signature</label>
+        <input id="tx-hash" type="text" placeholder="0x... (EVM TxHash) or Base58 Solana Signature" />
+      </div>
+
+      <div style="margin-top:1rem;">
+        <button class="btn" onclick="verifyTx()">Verify On-Chain &amp; Unlock Download</button>
+      </div>
+
+      <div id="verify-result">Awaiting transaction hash for live mainnet RPC verification...</div>
+    </section>
+  </div>
+
+  <script src="./wallet-config.js"></script>
+  <script>
+    const EVM_CONFIG = {
+      base: { rpc: 'https://mainnet.base.org', usdc: '0x833589fcd6edb6e08f4c7c32d4f71b54bda02913' },
+      arbitrum: { rpc: 'https://arb1.arbitrum.io/rpc', usdc: '0xaf88d065e77c8cc2239327c5edb3a432268e5831' },
+      polygon: { rpc: 'https://polygon-bor-rpc.publicnode.com', usdc: '0x3c499c542cef5e3811e1192ce70d8cc03d5c3359' }
+    };
+    const ERC20_TRANSFER_TOPIC = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef';
+
+    function selectProduct(id, price) {
+      document.getElementById('prod-select').value = `${id}|${price}`;
+      document.querySelector('.gate').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function updateRecipient() {
+      const chain = document.getElementById('pay-chain').value;
+      const el = document.getElementById('pay-recipient');
+      if (!window.NEON_WALLETS) return;
+      el.textContent = chain === 'solana' ? window.NEON_WALLETS.solana : window.NEON_WALLETS.evm;
+    }
+    updateRecipient();
+
+    async function verifyTx() {
+      const [prodId, priceStr] = document.getElementById('prod-select').value.split('|');
+      const minUsd = parseFloat(priceStr);
+      const chain = document.getElementById('pay-chain').value;
+      const txHash = document.getElementById('tx-hash').value.trim();
+      const out = document.getElementById('verify-result');
+      out.className = '';
+
+      if (!txHash) {
+        out.className = 'err';
+        out.textContent = 'Please paste a confirmed transaction hash first.';
+        return;
+      }
+
+      out.textContent = `Querying live ${chain.toUpperCase()} mainnet RPC to verify transfer >= $${minUsd} USDC...`;
+      try {
+        if (chain === 'solana') {
+          const res = await fetch('https://api.mainnet-beta.solana.com', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              jsonrpc: '2.0', id: 1, method: 'getTransaction',
+              params: [txHash, { encoding: 'jsonParsed', maxSupportedTransactionVersion: 0 }]
+            })
+          });
+          const data = await res.json();
+          const tx = data.result;
+          if (!tx || tx.meta?.err) throw new Error('Transaction not found or failed on Solana mainnet.');
+          const recipient = window.NEON_WALLETS.solana;
+          const postTokens = tx.meta.postTokenBalances || [];
+          const preTokens = tx.meta.preTokenBalances || [];
+          const usdcMint = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v';
+          let receivedUsdc = 0;
+          for (const post of postTokens) {
+            if (post.mint === usdcMint && post.owner === recipient) {
+              const pre = preTokens.find(p => p.accountIndex === post.accountIndex);
+              receivedUsdc += (post.uiTokenAmount?.uiAmount || 0) - (pre?.uiTokenAmount?.uiAmount || 0);
+            }
+          }
+          if (receivedUsdc >= minUsd * 0.99) {
+            out.className = 'ok';
+            out.textContent = `VERIFIED ON SOLANA MAINNET!\nReceived: ${receivedUsdc.toFixed(2)} USDC\nProduct Unlocked: ${prodId}\nLicense Receipt: NEON-${prodId.toUpperCase()}-${txHash.slice(0, 12)}\nDownload package from repository: engines/engine3_micro_saas/products/`;
+          } else {
+            throw new Error(`Found tx, but USDC received by ${recipient} was ${receivedUsdc.toFixed(2)} USDC (required >= ${minUsd} USDC).`);
+          }
+        } else {
+          const cfg = EVM_CONFIG[chain];
+          const res = await fetch(cfg.rpc, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'eth_getTransactionReceipt', params: [txHash] })
+          });
+          const data = await res.json();
+          const receipt = data.result;
+          if (!receipt || receipt.status !== '0x1') throw new Error('Transaction receipt not found or reverted on ' + chain);
+          const targetTopic = '0x000000000000000000000000' + window.NEON_WALLETS.evm.toLowerCase().slice(2);
+          let receivedUsdc = 0;
+          for (const log of (receipt.logs || [])) {
+            if (log.address.toLowerCase() === cfg.usdc && log.topics?.[0] === ERC20_TRANSFER_TOPIC && log.topics?.[2]?.toLowerCase() === targetTopic) {
+              receivedUsdc += Number(BigInt(log.data)) / 1e6;
+            }
+          }
+          if (receivedUsdc >= minUsd * 0.99) {
+            out.className = 'ok';
+            out.textContent = `VERIFIED ON ${chain.toUpperCase()} MAINNET!\nReceived: ${receivedUsdc.toFixed(2)} USDC\nProduct Unlocked: ${prodId}\nLicense Receipt: NEON-${prodId.toUpperCase()}-${txHash.slice(2, 14)}\nDownload package from repository: engines/engine3_micro_saas/products/`;
+          } else {
+            throw new Error(`Tx confirmed, but USDC transferred to ${window.NEON_WALLETS.evm} was ${receivedUsdc.toFixed(2)} USDC (required >= ${minUsd} USDC).`);
+          }
+        }
+      } catch (e) {
+        out.className = 'err';
+        out.textContent = 'Verification Failed: ' + e.message;
+      }
+    }
+  </script>
+</body>
+</html>

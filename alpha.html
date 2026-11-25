@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Crypto Funding Rate Arbitrage & DEX Spread Tracker | NeonOps Alpha</title>
+  <meta name="description" content="Real-time perpetual funding rate scanner (Binance & Bybit) with annualized APR arbitrage sorting and live DEX liquidity spreads via DexScreener." />
+  <style>
+    :root { --bg:#0a0d14; --card:#121826; --border:#1f2a40; --accent:#00e5ff; --green:#10b981; --red:#ef4444; --text:#e6edf7; --muted:#8b9bb4; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.5; }
+    .container { max-width:1160px; margin:0 auto; padding:1.5rem 1.25rem 4rem; }
+    header { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; padding-bottom:1rem; border-bottom:1px solid var(--border); margin-bottom:1.5rem; }
+    a { color:var(--accent); text-decoration:none; }
+    .controls { display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center; margin-bottom:1.25rem; }
+    input, select { background:#0c111d; color:var(--text); border:1px solid var(--border); border-radius:8px; padding:0.55rem 0.75rem; }
+    .btn { background:var(--accent); color:#06101c; border:none; border-radius:8px; padding:0.58rem 1rem; font-weight:800; cursor:pointer; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.25rem; margin-bottom:1.5rem; overflow-x:auto; }
+    h1 { font-size:1.65rem; margin-bottom:0.35rem; }
+    h2 { font-size:1.15rem; margin-bottom:0.85rem; color:var(--accent); }
+    .sub { color:var(--muted); font-size:0.9rem; margin-bottom:1rem; }
+    table { width:100%; border-collapse:collapse; font-size:0.88rem; }
+    th, td { text-align:left; padding:0.65rem 0.75rem; border-bottom:1px solid var(--border); }
+    th { color:var(--muted); font-size:0.78rem; text-transform:uppercase; }
+    .pos { color:var(--green); font-weight:700; }
+    .neg { color:var(--red); font-weight:700; }
+    .aff-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(210px,1fr)); gap:0.75rem; margin-bottom:1.5rem; }
+    .aff-btn { display:block; text-align:center; background:#142038; border:1px solid #263b63; color:var(--text); padding:0.75rem; border-radius:10px; font-weight:700; font-size:0.88rem; }
+    .aff-btn:hover { border-color:var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div><strong>NeonOps</strong> &rsaquo; Live Funding Rate &amp; DEX Alpha</div>
+      <nav style="display:flex;gap:1rem;font-size:0.9rem;">
+        <a href="./index.html">&larr; Home</a>
+        <a href="../utilities.html">Utilities</a>
+        <a href="../tools.html">Micro-SaaS</a>
+        <a href="../guides.html">Playbooks</a>
+      </nav>
+    </header>
+
+    <h1>Live Perpetual Funding Rate Arbitrage &amp; DEX Spread Monitor</h1>
+    <p class="sub">Direct browser feed from public exchange &amp; DexScreener APIs. Sorted by absolute annualized funding APR (cash-and-carry yield opportunities).</p>
+
+    <div class="aff-grid" id="affiliate-bar"></div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;margin-bottom:0.85rem;">
+        <h2 style="margin:0;">1. Top Perpetual Funding Rates (Live 8h &amp; Annualized APR)</h2>
+        <div class="controls" style="margin:0;">
+          <input id="filter-sym" type="text" placeholder="Filter symbol (e.g. BTC, SOL)" oninput="renderFunding()" />
+          <button class="btn" onclick="loadFunding()">Refresh Live Rates</button>
+        </div>
+      </div>
+      <div id="funding-status" class="sub">Loading live funding rates...</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th>Venue</th>
+            <th>Mark Price</th>
+            <th>8h Funding Rate</th>
+            <th>Annualized APR</th>
+            <th>Delta-Neutral Strategy</th>
+          </tr>
+        </thead>
+        <tbody id="funding-body"></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;margin-bottom:0.85rem;">
+        <h2 style="margin:0;">2. Live DEX Liquidity &amp; Price Spread Scanner (DexScreener)</h2>
+        <div class="controls" style="margin:0;">
+          <input id="dex-query" type="text" value="SOL USDC" placeholder="Search pair (e.g. SOL USDC, ETH USDC)" />
+          <button class="btn" onclick="loadDexSpreads()">Scan DEX Pairs</button>
+        </div>
+      </div>
+      <div id="dex-status" class="sub">Querying live DEX pools...</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Pair</th>
+            <th>Chain / DEX</th>
+            <th>Price (USD)</th>
+            <th>24h Volume</th>
+            <th>Liquidity (USD)</th>
+            <th>24h Change</th>
+          </tr>
+        </thead>
+        <tbody id="dex-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="./affiliate-config.js"></script>
+  <script>
+    const affBar = document.getElementById('affiliate-bar');
+    if (window.NEON_AFFILIATES) {
+      affBar.innerHTML = Object.values(window.NEON_AFFILIATES).map(a =>
+        `<a class="aff-btn" href="${a.url}" target="_blank" rel="noopener noreferrer">${a.label} &nearr;</a>`
+      ).join('');
+    }
+
+    let fundingRows = [];
+
+    async function loadFunding() {
+      const status = document.getElementById('funding-status');
+      status.textContent = 'Fetching live funding data from Binance Futures & Bybit...';
+      fundingRows = [];
+      const tasks = [
+        fetch('https://fapi.binance.com/fapi/v1/premiumIndex').then(r => r.json()).then(list => {
+          if (!Array.isArray(list)) return;
+          for (const x of list) {
+            if (!x.symbol.endsWith('USDT')) continue;
+            const rate = parseFloat(x.lastFundingRate);
+            if (isNaN(rate)) continue;
+            fundingRows.push({
+              symbol: x.symbol,
+              venue: 'Binance Perp',
+              price: parseFloat(x.markPrice),
+              rate,
+              apr: rate * 3 * 365 * 100
+            });
+          }
+        }).catch(() => {}),
+        fetch('https://api.bybit.com/v5/market/tickers?category=linear').then(r => r.json()).then(res => {
+          const list = res?.result?.list || [];
+          for (const x of list) {
+            if (!x.symbol.endsWith('USDT')) continue;
+            const rate = parseFloat(x.fundingRate);
+            if (isNaN(rate)) continue;
+            fundingRows.push({
+              symbol: x.symbol,
+              venue: 'Bybit Perp',
+              price: parseFloat(x.markPrice),
+              rate,
+              apr: rate * 3 * 365 * 100
+            });
+          }
+        }).catch(() => {})
+      ];
+      await Promise.all(tasks);
+      fundingRows.sort((a, b) => Math.abs(b.apr) - Math.abs(a.apr));
+      status.textContent = fundingRows.length
+        ? `Loaded ${fundingRows.length} live perpetual contracts at ${new Date().toLocaleTimeString()}`
+        : 'Could not reach public exchange APIs from this browser network.';
+      renderFunding();
+    }
+
+    function renderFunding() {
+      const q = document.getElementById('filter-sym').value.trim().toUpperCase();
+      const filtered = fundingRows.filter(r => !q || r.symbol.includes(q)).slice(0, 35);
+      document.getElementById('funding-body').innerHTML = filtered.map(r => {
+        const cls = r.rate >= 0 ? 'pos' : 'neg';
+        const strat = r.rate >= 0 ? 'Long Spot + Short Perp' : 'Short Spot / Long Perp';
+        return `<tr>
+          <td><strong>${r.symbol}</strong></td>
+          <td>${r.venue}</td>
+          <td>$${r.price < 1 ? r.price.toFixed(5) : r.price.toFixed(2)}</td>
+          <td class="${cls}">${(r.rate * 100).toFixed(4)}%</td>
+          <td class="${cls}">${r.apr.toFixed(2)}%</td>
+          <td>${strat}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    async function loadDexSpreads() {
+      const q = encodeURIComponent(document.getElementById('dex-query').value.trim() || 'SOL USDC');
+      const status = document.getElementById('dex-status');
+      status.textContent = 'Searching live DEX pools via DexScreener...';
+      try {
+        const res = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${q}`);
+        const json = await res.json();
+        const pairs = (json.pairs || []).sort((a, b) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0)).slice(0, 20);
+        if (pairs.length >= 2) {
+          const prices = pairs.map(p => parseFloat(p.priceUsd)).filter(n => n > 0);
+          const minP = Math.min(...prices), maxP = Math.max(...prices);
+          const spreadPct = minP > 0 ? ((maxP - minP) / minP) * 100 : 0;
+          status.textContent = `Top ${pairs.length} liquid pools | Observed cross-pool price spread: ${spreadPct.toFixed(3)}%`;
+        } else {
+          status.textContent = `Found ${pairs.length} pools.`;
+        }
+        document.getElementById('dex-body').innerHTML = pairs.map(p => {
+          const chg = p.priceChange?.h24 ?? 0;
+          return `<tr>
+            <td><a href="${p.url}" target="_blank" rel="noopener">${p.baseToken.symbol}/${p.quoteToken.symbol}</a></td>
+            <td>${p.chainId} / ${p.dexId}</td>
+            <td>$${p.priceUsd || '--'}</td>
+            <td>$${Math.round(p.volume?.h24 || 0).toLocaleString()}</td>
+            <td>$${Math.round(p.liquidity?.usd || 0).toLocaleString()}</td>
+            <td class="${chg >= 0 ? 'pos' : 'neg'}">${chg}%</td>
+          </tr>`;
+        }).join('');
+      } catch (e) {
+        status.textContent = 'DexScreener fetch error: ' + e.message;
+      }
+    }
+
+    loadFunding();
+    loadDexSpreads();
+  </script>
+</body>
+</html>

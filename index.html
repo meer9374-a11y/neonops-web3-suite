@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeonOps Web3 Suite — Free Crypto Utilities, Live Funding Alpha, Automation Tools & Playbooks</title>
+  <meta name="description" content="Free zero-KYC Web3 developer utilities, live perpetual funding rate arbitrage monitor, token safety checker, automation CLI toolkits, and technical playbooks." />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="NeonOps Web3 Suite — Free Crypto Utilities & On-Chain Tools" />
+  <meta property="og:description" content="Live EVM/Solana gas & fee calculators, GoPlus token safety checker, real-time funding rate monitor, and developer automation scripts." />
+  <meta property="og:type" content="website" />
+  <style>
+    :root {
+      --bg: #0a0d14;
+      --card: #121826;
+      --border: #1f2a40;
+      --accent: #00e5ff;
+      --accent2: #7c3aed;
+      --green: #10b981;
+      --text: #e6edf7;
+      --muted: #8b9bb4;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: radial-gradient(circle at top right, #121c33 0%, var(--bg) 55%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    .container { max-width: 1120px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem; padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border); margin-bottom: 2.5rem;
+    }
+    .brand { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.02em; }
+    .brand span { color: var(--accent); }
+    nav { display: flex; gap: 1rem; flex-wrap: wrap; }
+    nav a {
+      color: var(--muted); text-decoration: none; font-size: 0.92rem; font-weight: 600;
+      padding: 0.4rem 0.75rem; border-radius: 8px; transition: all 0.2s;
+    }
+    nav a:hover { color: var(--text); background: rgba(0,229,255,0.08); }
+    .hero { text-align: center; max-width: 780px; margin: 0 auto 3rem; }
+    .badge {
+      display: inline-block; padding: 0.3rem 0.8rem; border-radius: 999px;
+      background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.3);
+      color: var(--accent); font-size: 0.8rem; font-weight: 700; margin-bottom: 1rem;
+    }
+    h1 { font-size: clamp(2rem, 4.5vw, 3.1rem); line-height: 1.15; margin-bottom: 1rem; }
+    .hero p { color: var(--muted); font-size: 1.08rem; }
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem; margin-bottom: 2.5rem;
+    }
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .card:hover { transform: translateY(-3px); border-color: var(--accent); }
+    .card h2 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+    .card p { color: var(--muted); font-size: 0.92rem; margin-bottom: 1.25rem; }
+    .tag {
+      font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--green); margin-bottom: 0.6rem; display: inline-block;
+    }
+    .btn {
+      display: inline-block; text-align: center; text-decoration: none;
+      background: linear-gradient(135deg, var(--accent), #3b82f6);
+      color: #06101c; font-weight: 800; padding: 0.65rem 1rem; border-radius: 9px;
+      font-size: 0.9rem; cursor: pointer; border: none;
+    }
+    .btn:hover { opacity: 0.92; }
+    .wallet-bar {
+      background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+      padding: 1.25rem 1.5rem; margin-top: 1.5rem;
+    }
+    .wallet-bar h3 { font-size: 1rem; margin-bottom: 0.75rem; color: var(--accent); }
+    .addr-row {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 0.5rem; padding: 0.55rem 0.75rem; background: #0c111d;
+      border-radius: 8px; margin-bottom: 0.5rem; font-family: monospace; font-size: 0.85rem;
+    }
+    .copy-btn {
+      background: #1d283d; color: var(--text); border: 1px solid var(--border);
+      padding: 0.3rem 0.65rem; border-radius: 6px; cursor: pointer; font-size: 0.78rem;
+    }
+    .copy-btn:hover { border-color: var(--accent); }
+    .ad-slot {
+      margin: 2rem 0; padding: 1rem; border: 1px dashed var(--border);
+      border-radius: 10px; text-align: center; color: var(--muted); font-size: 0.82rem;
+    }
+    footer { text-align: center; color: var(--muted); font-size: 0.82rem; margin-top: 3rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">Neon<span>Ops</span> Web3 Suite</div>
+      <nav>
+        <a href="./utilities.html">Web3 Utilities</a>
+        <a href="./alpha.html">Funding &amp; DEX Alpha</a>
+        <a href="./tools.html">Automation Micro-SaaS</a>
+        <a href="./guides.html">Tech Playbooks</a>
+        <a href="./reviews.html">Tool Reviews</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="badge">100% Client-Side &bull; Zero-KYC &bull; Direct Mainnet RPC</div>
+      <h1>Fast, Open Web3 Utilities, Live Funding Alpha &amp; Developer Automation</h1>
+      <p>No logins, no tracking, no custodian lock-in. Estimate gas across EVM &amp; Solana, inspect token contracts, track live perpetual funding spreads, and unlock developer automation scripts directly on-chain.</p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <div>
+          <span class="tag">Engine 1 &bull; Free Utilities</span>
+          <h2>Web3 &amp; Dev Utility Hub</h2>
+          <p>Live multi-chain gas &amp; swap cost estimator, GoPlus token honeypot/tax safety scanner, JSON/Base64/JWT/Unix/SHA-256 toolkit.</p>
+        </div>
+        <a class="btn" href="./utilities.html">Open Utilities &rarr;</a>
+      </article>
+
+      <article class="card">
+        <div>
+          <span class="tag">Engine 2 &bull; Live Market Data</span>
+          <h2>Funding Rate &amp; DEX Alpha</h2>
+          <p>Real-time perpetual funding rate scanner (Binance, Bybit, OKX) with annualized APR sorting plus live DexScreener liquidity spreads.</p>
+        </div>
+        <a class="btn" href="./alpha.html">Open Alpha Dashboard &rarr;</a>
+      </article>
+
+      <article class="card">
+        <div>
+          <span class="tag">Engine 3 &bull; Micro-SaaS Tools</span>
+          <h2>Automation CLI Store</h2>
+          <p>Production Node.js automation kits for traders &amp; builders: Gas Watchdog, Funding CSV Exporter, and Bounty Scanner. Instant on-chain unlock.</p>
+        </div>
+        <a class="btn" href="./tools.html">Browse Toolkits &rarr;</a>
+      </article>
+
+      <article class="card">
+        <div>
+          <span class="tag">Engine 4 &bull; Digital Playbooks</span>
+          <h2>Technical Guides &amp; Cheat Sheets</h2>
+          <p>Actionable engineering playbooks on Solana/Base RPC automation, on-chain paywalls, and real-time market tooling with printable PDF view.</p>
+        </div>
+        <a class="btn" href="./guides.html">Read Playbooks &rarr;</a>
+      </article>
+    </section>
+
+    <!-- Non-KYC Crypto Ad Slot (A-Ads Ready) -->
+    <div class="ad-slot" id="crypto-ad-slot">
+      <!-- Replace with live A-Ads iframe unit once registered at a-ads.com -->
+      Crypto Sponsor Slot &bull; Zero-Tracker A-Ads Compatible Container
+    </div>
+
+    <section class="wallet-bar">
+      <h3>Support Free Open Tools (Direct Non-Custodial Tips)</h3>
+      <div class="addr-row">
+        <span><strong>SOL (Solana):</strong> <span id="sol-addr">Loading...</span></span>
+        <button class="copy-btn" onclick="copyAddr('sol-addr', this)">Copy</button>
+      </div>
+      <div class="addr-row">
+        <span><strong>EVM (Base / Arbitrum / Polygon / ETH):</strong> <span id="evm-addr">Loading...</span></span>
+        <button class="copy-btn" onclick="copyAddr('evm-addr', this)">Copy</button>
+      </div>
+    </section>
+
+    <footer>
+      <p>NeonOps Web3 Suite &bull; Built for speed, transparency, and verifiable on-chain execution.</p>
+    </footer>
+  </div>
+
+  <script src="./wallet-config.js"></script>
+  <script>
+    if (window.NEON_WALLETS) {
+      document.getElementById('sol-addr').textContent = window.NEON_WALLETS.solana;
+      document.getElementById('evm-addr').textContent = window.NEON_WALLETS.evm;
+    }
+    function copyAddr(id, btn) {
+      const txt = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(txt).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = orig, 1500);
+      });
+    }
+  </script>
+</body>
+</html>
