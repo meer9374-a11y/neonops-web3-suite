@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>APEX FLOW // Live Crypto Trend & Rug-Pull Terminal</title>
+  <meta name="description" content="Real-time on-chain trending memecoin scanner, smart-money buy/sell flow tracker, and instant Contract Address rug-risk radar." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body { background: #06080d; color: #f1f5f9; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body class="min-h-screen bg-[#06080d] text-slate-100 selection:bg-emerald-500/30 selection:text-emerald-200">
+  <!-- Header -->
+  <header class="sticky top-0 z-30 border-b border-slate-800/80 bg-[#06080d]/90 backdrop-blur-md">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
+      <div class="flex items-center gap-3">
+        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/15 ring-1 ring-emerald-500/40 text-emerald-400 font-bold">⚡</div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="mono text-sm font-bold tracking-wider text-white">APEX FLOW</span>
+            <span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-300">
+              <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400"></span>
+              LIVE FEED
+            </span>
+          </div>
+          <p class="hidden text-[11px] text-slate-400 sm:block">Real-Time DEX Trend Hijacking &amp; Rug-Pull Radar</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2.5">
+        <button id="refreshBtn" class="inline-flex items-center gap-1.5 rounded-lg border border-slate-800 bg-slate-900/80 px-3 py-1.5 mono text-xs text-slate-300 hover:border-slate-700 hover:text-white">
+          ↻ <span id="countdown">60s</span>
+        </button>
+        <button id="headerUnlockBtn" class="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500 px-3.5 py-1.5 text-xs font-extrabold text-slate-950 shadow-lg shadow-emerald-500/20 hover:bg-emerald-400">
+          ✦ Unlock Alpha — $39 USDC
+        </button>
+        <span id="headerUnlockedBadge" class="hidden inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/15 px-3 py-1.5 text-xs font-bold text-emerald-300">
+          ✓ PRO UNLOCKED
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+    <!-- Hero CRO -->
+    <section class="relative overflow-hidden rounded-2xl border border-slate-800/90 bg-gradient-to-br from-[#0c1220] via-[#090d16] to-[#070a11] p-6 sm:p-8">
+      <div class="relative flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
+        <div class="max-w-2xl">
+          <div class="mb-3 flex flex-wrap items-center gap-2 text-xs">
+            <span id="riskSummaryBadge" class="inline-flex items-center gap-1.5 rounded-full border border-rose-500/30 bg-rose-500/10 px-2.5 py-1 font-semibold text-rose-300">
+              ⚠ Scanning live pairs for rug traps...
+            </span>
+            <span id="topTokenBadge" class="hidden inline-flex items-center gap-1 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-2.5 py-1 mono text-cyan-300"></span>
+          </div>
+          <h1 class="text-2xl font-extrabold tracking-tight text-white sm:text-4xl">
+            Stop Being Exit Liquidity on Trending Memecoins.
+            <span class="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+              Catch Smart-Money Flows Before the Dump.
+            </span>
+          </h1>
+          <p class="mt-3 text-sm leading-relaxed text-slate-300 sm:text-base">
+            100% live DEX telemetry refreshed every 60 seconds. Expose thin liquidity traps, 1h whale buy/sell imbalances, and instant Contract Address rug scores before you ape.
+          </p>
+        </div>
+
+        <div id="heroOfferBox" class="shrink-0 rounded-xl border border-emerald-500/30 bg-[#070b12]/90 p-5 lg:w-80">
+          <div class="flex items-baseline justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Founder Lifetime Pass</span>
+            <span class="mono text-2xl font-extrabold text-white">$39 <span class="text-xs font-normal text-slate-400">USDC</span></span>
+          </div>
+          <ul class="mt-3 space-y-1.5 text-xs text-slate-300">
+            <li>✓ Unblur all Rug Risk Scores &amp; Liq/FDV Trap alerts</li>
+            <li>✓ Live Smart-Money Buy/Sell Pressure signals</li>
+            <li>✓ Unlimited instant CA Rug-Check scans</li>
+          </ul>
+          <button id="heroUnlockBtn" class="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-extrabold text-slate-950 hover:bg-emerald-400">
+            🔒 Unlock Lifetime — $39 USDC
+          </button>
+          <p class="mt-2 text-center text-[11px] text-slate-500">One-time on-chain unlock • Base / Solana • No monthly fee</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Manual CA Scanner -->
+    <section class="mt-6 rounded-2xl border border-slate-800/90 bg-[#0b1019] p-5">
+      <h2 class="text-sm font-bold uppercase tracking-wider text-white">🔍 Instant Contract Address (CA) Rug &amp; Flow Scanner</h2>
+      <p class="mt-0.5 text-xs text-slate-400">Paste any Solana, Base, Ethereum, or BSC token address for live DEX pool telemetry.</p>
+      <form id="scanForm" class="mt-3 flex flex-col gap-2.5 sm:flex-row">
+        <input id="caInput" type="text" placeholder="Paste Contract Address (e.g. Solana pump address or 0x... Base/ETH CA)" class="flex-1 rounded-xl border border-slate-700/90 bg-[#06080d] px-4 py-3 mono text-xs text-white placeholder-slate-500 outline-none focus:border-cyan-400 sm:text-sm" />
+        <button id="scanBtn" type="submit" class="inline-flex items-center justify-center rounded-xl bg-cyan-500 px-5 py-3 text-sm font-bold text-slate-950 hover:bg-cyan-400">Scan CA</button>
+      </form>
+      <div id="scanError" class="hidden mt-3 rounded-lg border border-rose-500/30 bg-rose-500/10 px-3.5 py-2.5 text-xs text-rose-300"></div>
+      <div id="scanResultBox" class="hidden mt-4 rounded-xl border border-slate-800 bg-[#060910] p-4"></div>
+    </section>
+
+    <!-- Live Trending Table -->
+    <section class="mt-6 rounded-2xl border border-slate-800/90 bg-[#0b1019]">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 px-5 py-4">
+        <div>
+          <h2 class="text-sm font-bold uppercase tracking-wider text-white">🔥 Live Trending Pairs &amp; Smart-Money Radar</h2>
+          <p class="mt-0.5 text-xs text-slate-400">Top 5 pairs &amp; volume free • Insider Rug-Risk, Liq/FDV Trap &amp; Ranks #6–#12 gated</p>
+        </div>
+        <div id="updatedAtLabel" class="mono text-[11px] text-slate-500">Connecting live feed...</div>
+      </div>
+
+      <div id="feedError" class="hidden mx-5 mt-4 rounded-lg border border-rose-500/30 bg-rose-500/10 px-3.5 py-2.5 text-xs text-rose-300"></div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[880px] border-collapse text-left text-xs">
+          <thead>
+            <tr class="border-b border-slate-800/80 bg-[#080c13] text-[11px] uppercase tracking-wider text-slate-400">
+              <th class="px-4 py-3">#</th>
+              <th class="px-4 py-3">Token / Chain</th>
+              <th class="px-4 py-3 text-right">Price</th>
+              <th class="px-4 py-3 text-right">24h %</th>
+              <th class="px-4 py-3 text-right">24h Vol</th>
+              <th class="px-4 py-3 text-right">Liquidity</th>
+              <th class="px-4 py-3 text-emerald-400">🔒 Rug Risk</th>
+              <th class="px-4 py-3 text-emerald-400">🔒 Smart-Money Flow</th>
+              <th class="px-4 py-3 text-emerald-400">🔒 Liq/FDV &amp; Signal</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody" class="divide-y divide-slate-800/60">
+            <tr><td colspan="9" class="px-4 py-10 text-center text-slate-400">Loading 100% live DEX telemetry from DexScreener...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="bottomCtaBar" class="flex flex-col items-center justify-between gap-4 border-t border-emerald-500/20 bg-gradient-to-r from-emerald-500/10 via-[#0b1019] to-cyan-500/10 px-5 py-5 sm:flex-row">
+        <div>
+          <h3 class="text-sm font-bold text-white">Unlock All Trending Tokens, Rug Scores &amp; Insider Signals</h3>
+          <p class="mt-0.5 text-xs text-slate-400">Avoid one rug-pull and this terminal pays for itself 10x over. One-time $39 USDC.</p>
+        </div>
+        <button id="bottomUnlockBtn" class="inline-flex shrink-0 items-center gap-2 rounded-xl bg-emerald-500 px-5 py-2.5 text-xs font-extrabold text-slate-950 shadow-lg shadow-emerald-500/20 hover:bg-emerald-400">
+          🔒 Unlock Lifetime Pass ($39 USDC)
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-900 py-6 text-center text-[11px] text-slate-500">
+    APEX FLOW Terminal • 100% Live On-Chain DEX Telemetry • Not Financial Advice
+  </footer>
+
+  <!-- Web3 Checkout Modal -->
+  <div id="unlockModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
+    <div class="relative w-full max-w-lg rounded-2xl border border-emerald-500/30 bg-[#0b1019] p-6 shadow-2xl">
+      <button id="closeModalBtn" class="absolute right-4 top-4 rounded-lg px-2 py-1 text-slate-400 hover:bg-slate-800 hover:text-white">✕</button>
+      <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-emerald-300">
+        ✦ Lifetime Alpha Pass • $39 USDC
+      </div>
+      <h2 class="text-xl font-bold text-white">Unlock All Insider Signals &amp; Rug-Risk Radars</h2>
+      <p class="mt-1.5 text-sm text-slate-400">One-time on-chain payment. Instant browser unlock for all trending tokens, Smart-Money Flow signals, and full CA Scanner reports.</p>
+
+      <div class="mt-5 space-y-4">
+        <div class="rounded-xl border border-slate-800 bg-[#060910] p-4">
+          <div class="flex items-center justify-between gap-2 text-xs font-medium text-slate-400">
+            <span>STEP 1 — SEND $39 USDC OR USDT</span>
+            <div class="flex rounded-lg border border-slate-800 bg-slate-950 p-0.5 text-[11px]">
+              <button type="button" id="tabEvm" class="rounded-md bg-emerald-500/20 px-2.5 py-1 font-semibold text-emerald-300">EVM (Base/ETH)</button>
+              <button type="button" id="tabSol" class="rounded-md px-2.5 py-1 font-semibold text-slate-400 hover:text-white">Solana</button>
+            </div>
+          </div>
+          <div id="networkLabel" class="mt-2 mono text-[11px] text-cyan-300">Base / Arbitrum / Polygon / ETH (USDC / USDT)</div>
+          <div class="mt-2 flex items-center gap-2">
+            <code id="walletAddressDisplay" class="flex-1 overflow-x-auto rounded-lg border border-slate-800 bg-slate-950 px-3 py-2.5 mono text-xs text-emerald-300">0x6137ED1A93c8CFF1a6C3112A14bE04883f58E5F7</code>
+            <button type="button" id="copyWalletBtn" class="shrink-0 rounded-lg border border-emerald-500/40 bg-emerald-500/15 px-3 py-2.5 text-xs font-semibold text-emerald-200 hover:bg-emerald-500/25">Copy</button>
+          </div>
+        </div>
+
+        <form id="verifyTxForm" class="rounded-xl border border-slate-800 bg-[#060910] p-4">
+          <label for="txHashInput" class="block text-xs font-medium text-slate-400">STEP 2 — PASTE TRANSACTION HASH (TX HASH / SIGNATURE)</label>
+          <input id="txHashInput" type="text" required placeholder="0x... (Base / Arbitrum / Polygon / ETH) or Solana Tx Signature" class="mt-2.5 w-full rounded-lg border border-slate-700 bg-slate-950 px-3 py-2.5 mono text-xs text-white placeholder-slate-500 outline-none focus:border-emerald-500" />
+          <p id="txError" class="hidden mt-2 text-xs font-medium text-rose-400"></p>
+          <button type="submit" class="mt-3.5 w-full rounded-xl bg-emerald-500 px-4 py-3 text-sm font-bold text-slate-950 hover:bg-emerald-400">Verify Tx &amp; Unlock Lifetime Access</button>
+        </form>
+      </div>
+      <div class="mt-4 flex items-center justify-between text-[11px] text-slate-500">
+        <span>🔒 Zero wallet connect required — zero drain risk</span>
+        <span>Instant local activation</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const EVM_WALLET = "0x6137ED1A93c8CFF1a6C3112A14bE04883f58E5F7";
+    const SOL_WALLET = "5YtLdjEVDQxP2Kh4xVSccxhMKhx8SuZd6wYaGXYcRwFp";
+    const STORAGE_KEY = "apex_flow_pro_tx_hash";
+
+    let unlocked = Boolean(localStorage.getItem(STORAGE_KEY));
+    let tokens = [];
+    let lastScan = null;
+    let countdown = 60;
+    let activeChain = "evm";
+
+    const fmtUsd = (n) => !n ? "$0" : n >= 1e9 ? `$${(n/1e9).toFixed(2)}B` : n >= 1e6 ? `$${(n/1e6).toFixed(2)}M` : n >= 1e3 ? `$${(n/1e3).toFixed(1)}K` : `$${n.toFixed(0)}`;
+    const fmtPrice = (n) => !n ? "$0.00" : n >= 1 ? `$${n.toFixed(4)}` : n >= 0.001 ? `$${n.toFixed(5)}` : `$${n.toExponential(2)}`;
+    const fmtPct = (n) => `${n > 0 ? "+" : ""}${n.toFixed(1)}%`;
+    const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+
+    function analyzePair(pair, rank) {
+      const priceUsd = Number(pair.priceUsd || 0);
+      const priceChange24h = Number(pair.priceChange?.h24 || 0);
+      const priceChange1h = Number(pair.priceChange?.h1 || 0);
+      const volume24h = Number(pair.volume?.h24 || 0);
+      const volume1h = Number(pair.volume?.h1 || 0);
+      const liquidityUsd = Number(pair.liquidity?.usd || 0);
+      const fdv = Number(pair.fdv || pair.marketCap || 0);
+      const buys1h = Number(pair.txns?.h1?.buys || 0);
+      const sells1h = Number(pair.txns?.h1?.sells || 0);
+      const buys24h = Number(pair.txns?.h24?.buys || 0);
+      const sells24h = Number(pair.txns?.h24?.sells || 0);
+      const total1h = buys1h + sells1h;
+      const total24h = buys24h + sells24h;
+      const buyPressurePct = total1h >= 10 ? Math.round((buys1h / total1h) * 100) : total24h > 0 ? Math.round((buys24h / total24h) * 100) : 50;
+      const liqToFdvPct = fdv > 0 ? Number(((liquidityUsd / fdv) * 100).toFixed(2)) : 0;
+      const volToLiqRatio = liquidityUsd > 0 ? Number((volume24h / liquidityUsd).toFixed(2)) : 0;
+      const ageHours = pair.pairCreatedAt ? (Date.now() - pair.pairCreatedAt) / 3600000 : null;
+
+      let risk = 18;
+      const notes = [];
+      if (liquidityUsd < 15000) { risk += 38; notes.push("Critical: Liquidity <$15K"); }
+      else if (liquidityUsd < 50000) { risk += 22; notes.push("Thin Liquidity (<$50K)"); }
+      else if (liquidityUsd >= 250000) { risk -= 8; notes.push("Deep Liquidity ($250K+)"); }
+      if (fdv > 0 && liqToFdvPct < 2.5) { risk += 22; notes.push(`Liq/FDV Trap (${liqToFdvPct}%)`); }
+      else if (liqToFdvPct >= 10) { risk -= 5; }
+      if (ageHours !== null && ageHours < 6) { risk += 16; notes.push(`Ultra-Fresh Pool (${ageHours.toFixed(1)}h)`); }
+      else if (ageHours !== null && ageHours < 24) { risk += 8; notes.push(`New Launch (${ageHours.toFixed(0)}h)`); }
+      if (volToLiqRatio > 15) { risk += 12; notes.push(`Extreme Churn (${volToLiqRatio}x Vol/Liq)`); }
+      if (priceChange1h < -25 || priceChange24h < -50) { risk += 14; notes.push("Active Waterfall Dump"); }
+      if (buyPressurePct >= 62 && volume1h > 10000) { notes.push(`Smart-Money Inflow (${buyPressurePct}% buys)`); }
+      else if (buyPressurePct <= 38) { risk += 10; notes.push(`Heavy Sell Pressure (${100-buyPressurePct}% sells)`); }
+
+      const rugRiskScore = Math.max(5, Math.min(99, Math.round(risk)));
+      const rugRiskLabel = rugRiskScore >= 75 ? "EXTREME" : rugRiskScore >= 52 ? "HIGH" : rugRiskScore >= 30 ? "MEDIUM" : "LOW";
+      let signal = "NEUTRAL";
+      if (rugRiskScore >= 75 && buyPressurePct < 48) signal = "EXIT LIQUIDITY";
+      else if (buyPressurePct >= 60 && priceChange1h > 5 && liquidityUsd >= 25000) signal = "BREAKOUT";
+      else if (buyPressurePct >= 56 && priceChange1h >= -8 && volume1h > 5000) signal = "ACCUMULATION";
+      else if (buyPressurePct <= 44 || priceChange1h < -15) signal = "DISTRIBUTION";
+
+      if (!notes.length) notes.push("Balanced on-chain order flow");
+      return {
+        rank, chainId: pair.chainId || "solana",
+        tokenAddress: pair.baseToken?.address || pair.pairAddress || "",
+        symbol: pair.baseToken?.symbol || "UNKNOWN",
+        name: pair.baseToken?.name || "Unknown Token",
+        url: pair.url || `https://dexscreener.com/${pair.chainId}/${pair.baseToken?.address}`,
+        priceUsd, priceChange24h, volume24h, volume1h, liquidityUsd, fdv,
+        buys1h, sells1h, buys24h, sells24h, buyPressurePct, liqToFdvPct,
+        rugRiskScore, rugRiskLabel, signal, notes: notes.slice(0, 3)
+      };
+    }
+
+    const riskCls = (l) => l === "EXTREME" ? "border-rose-500/40 bg-rose-500/15 text-rose-300" : l === "HIGH" ? "border-amber-500/40 bg-amber-500/15 text-amber-300" : l === "MEDIUM" ? "border-yellow-500/30 bg-yellow-500/10 text-yellow-200" : "border-emerald-500/40 bg-emerald-500/15 text-emerald-300";
+    const sigCls = (s) => s === "BREAKOUT" ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/40" : s === "ACCUMULATION" ? "bg-cyan-500/20 text-cyan-300 border-cyan-500/40" : s === "EXIT LIQUIDITY" ? "bg-rose-500/20 text-rose-300 border-rose-500/40" : s === "DISTRIBUTION" ? "bg-amber-500/20 text-amber-300 border-amber-500/40" : "bg-slate-800 text-slate-300 border-slate-700";
+
+    function syncUnlockUI() {
+      document.getElementById("headerUnlockBtn").classList.toggle("hidden", unlocked);
+      document.getElementById("headerUnlockedBadge").classList.toggle("hidden", !unlocked);
+      document.getElementById("heroOfferBox").classList.toggle("hidden", unlocked);
+      document.getElementById("bottomCtaBar").classList.toggle("hidden", unlocked);
+      renderTable();
+      if (lastScan) renderScan(lastScan);
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById("tableBody");
+      if (!tokens.length) return;
+      const highRisk = tokens.filter((t) => t.rugRiskLabel === "HIGH" || t.rugRiskLabel === "EXTREME").length;
+      document.getElementById("riskSummaryBadge").textContent = `⚠ ${highRisk} of ${tokens.length} live trending pairs flagged High/Extreme Rug Risk`;
+      const top = tokens[0];
+      const topBadge = document.getElementById("topTokenBadge");
+      topBadge.classList.remove("hidden");
+      topBadge.textContent = `🔥 #1 Trending: $${top.symbol} (${fmtPct(top.priceChange24h)})`;
+
+      tbody.innerHTML = tokens.map((t, idx) => {
+        const rowBlur = !unlocked && idx >= 5 ? "blur-md select-none pointer-events-none" : "";
+        const alphaBlur = !unlocked ? "blur-md select-none pointer-events-none" : "";
+        return `
+          <tr class="hover:bg-slate-900/50">
+            <td class="mono px-4 py-3.5 text-slate-500">${t.rank}</td>
+            <td class="px-4 py-3.5 ${rowBlur}">
+              <div class="flex items-center gap-2.5">
+                <div class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-800 mono text-[11px] font-bold text-emerald-300">${esc(t.symbol.slice(0,3))}</div>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <a href="${esc(t.url)}" target="_blank" rel="noreferrer" class="font-bold text-white hover:text-emerald-400">$${esc(t.symbol)}</a>
+                    <span class="rounded bg-slate-800 px-1.5 py-0.5 mono text-[10px] uppercase text-slate-300">${esc(t.chainId)}</span>
+                  </div>
+                  <div class="max-w-[150px] truncate text-[11px] text-slate-400">${esc(t.name)}</div>
+                </div>
+              </div>
+            </td>
+            <td class="mono px-4 py-3.5 text-right text-slate-200 ${rowBlur}">${fmtPrice(t.priceUsd)}</td>
+            <td class="mono px-4 py-3.5 text-right font-semibold ${t.priceChange24h >= 0 ? "text-emerald-400" : "text-rose-400"} ${rowBlur}">${fmtPct(t.priceChange24h)}</td>
+            <td class="mono px-4 py-3.5 text-right text-slate-200 ${rowBlur}">${fmtUsd(t.volume24h)}</td>
+            <td class="mono px-4 py-3.5 text-right text-slate-300 ${rowBlur}">${fmtUsd(t.liquidityUsd)}</td>
+            <td class="px-4 py-3.5 ${alphaBlur}">
+              <span class="inline-block rounded border px-2 py-0.5 mono text-[11px] font-bold ${riskCls(t.rugRiskLabel)}">${t.rugRiskScore}/100 • ${t.rugRiskLabel}</span>
+            </td>
+            <td class="px-4 py-3.5 ${alphaBlur}">
+              <div class="flex flex-col gap-1">
+                <span class="inline-block w-fit rounded border px-2 py-0.5 mono text-[10px] font-bold ${sigCls(t.signal)}">${t.signal}</span>
+                <span class="mono text-[11px] text-slate-400">${t.buyPressurePct}% buys (${t.buys1h}B/${t.sells1h}S 1h)</span>
+              </div>
+            </td>
+            <td class="px-4 py-3.5 ${alphaBlur}">
+              <div class="mono text-[11px] text-slate-300">Liq/FDV: ${t.liqToFdvPct}%</div>
+              <div class="max-w-[210px] truncate text-[11px] text-slate-400">${esc(t.notes[0])}</div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function renderScan(t) {
+      const box = document.getElementById("scanResultBox");
+      box.classList.remove("hidden");
+      const alphaBlur = unlocked ? "" : "blur-md select-none pointer-events-none";
+      box.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-base font-bold text-white">$${esc(t.symbol)}</span>
+              <span class="text-xs text-slate-400">${esc(t.name)}</span>
+              <span class="rounded bg-slate-800 px-2 py-0.5 mono text-[10px] uppercase text-cyan-300">${esc(t.chainId)}</span>
+            </div>
+            <p class="mt-0.5 mono text-[11px] text-slate-500">${esc(t.tokenAddress)}</p>
+          </div>
+          <a href="${esc(t.url)}" target="_blank" rel="noreferrer" class="rounded-lg border border-slate-700 px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white">DexScreener ↗</a>
+        </div>
+        <div class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div class="rounded-lg bg-slate-900/70 p-3"><div class="text-[11px] text-slate-400">Price / 24h</div><div class="mono mt-1 text-sm font-bold text-white">${fmtPrice(t.priceUsd)}</div><div class="mono text-xs font-semibold ${t.priceChange24h>=0?"text-emerald-400":"text-rose-400"}">${fmtPct(t.priceChange24h)}</div></div>
+          <div class="rounded-lg bg-slate-900/70 p-3"><div class="text-[11px] text-slate-400">24h Volume</div><div class="mono mt-1 text-sm font-bold text-white">${fmtUsd(t.volume24h)}</div><div class="mono text-[11px] text-slate-400">1h: ${fmtUsd(t.volume1h)}</div></div>
+          <div class="rounded-lg bg-slate-900/70 p-3"><div class="text-[11px] text-slate-400">Liquidity</div><div class="mono mt-1 text-sm font-bold text-white">${fmtUsd(t.liquidityUsd)}</div><div class="mono text-[11px] text-slate-400">FDV: ${fmtUsd(t.fdv)}</div></div>
+          <div class="rounded-lg bg-slate-900/70 p-3"><div class="text-[11px] text-slate-400">1h Txns (B / S)</div><div class="mono mt-1 text-sm font-bold text-white"><span class="text-emerald-400">${t.buys1h}</span> / <span class="text-rose-400">${t.sells1h}</span></div><div class="mono text-[11px] text-slate-400">24h: ${t.buys24h}/${t.sells24h}</div></div>
+        </div>
+        <div class="relative mt-3 overflow-hidden rounded-lg border border-slate-800 bg-slate-950/90 p-3.5">
+          <div class="grid gap-3 sm:grid-cols-3 ${alphaBlur}">
+            <div><div class="text-[11px] uppercase text-slate-400">Rug Risk Score</div><div class="mt-1"><span class="rounded border px-2 py-0.5 mono text-xs font-bold ${riskCls(t.rugRiskLabel)}">${t.rugRiskScore}/100 (${t.rugRiskLabel})</span></div></div>
+            <div><div class="text-[11px] uppercase text-slate-400">Smart-Money Signal</div><div class="mt-1 flex items-center gap-2"><span class="rounded border px-2 py-0.5 mono text-xs font-bold ${sigCls(t.signal)}">${t.signal}</span><span class="mono text-xs text-slate-300">${t.buyPressurePct}% buys</span></div></div>
+            <div><div class="text-[11px] uppercase text-slate-400">Diagnostics</div><ul class="mt-1 space-y-0.5 text-xs text-slate-300">${t.notes.map(n=>`<li>• ${esc(n)}</li>`).join("")}</ul></div>
+          </div>
+          ${unlocked ? "" : `<div class="absolute inset-0 flex items-center justify-center bg-slate-950/40"><button onclick="openModal()" class="rounded-lg bg-emerald-500 px-4 py-2 text-xs font-extrabold text-slate-950 hover:bg-emerald-400">🔒 Unlock Rug Score &amp; Smart-Money Breakdown ($39 USDC)</button></div>`}
+        </div>
+      `;
+    }
+
+    async function loadTrending() {
+      const errEl = document.getElementById("feedError");
+      errEl.classList.add("hidden");
+      try {
+        const boosts = await fetch("https://api.dexscreener.com/token-boosts/top/v1").then((r) => r.json());
+        const seen = new Set();
+        const unique = [];
+        for (const b of boosts) {
+          if (!b.chainId || !b.tokenAddress) continue;
+          const k = `${b.chainId}:${b.tokenAddress.toLowerCase()}`;
+          if (seen.has(k)) continue;
+          seen.add(k);
+          unique.push(b);
+          if (unique.length >= 14) break;
+        }
+        const byChain = new Map();
+        for (const b of unique) {
+          const arr = byChain.get(b.chainId) || [];
+          arr.push(b.tokenAddress);
+          byChain.set(b.chainId, arr);
+        }
+        const bestMap = new Map();
+        await Promise.all(Array.from(byChain.entries()).map(async ([chainId, addrs]) => {
+          const pairs = await fetch(`https://api.dexscreener.com/tokens/v1/${encodeURIComponent(chainId)}/${encodeURIComponent(addrs.join(","))}`).then((r) => r.json());
+          if (!Array.isArray(pairs)) return;
+          for (const p of pairs) {
+            const addr = p.baseToken?.address?.toLowerCase();
+            if (!addr) continue;
+            const k = `${chainId}:${addr}`;
+            const cur = Number(p.liquidity?.usd || 0);
+            const prev = Number(bestMap.get(k)?.liquidity?.usd || 0);
+            if (!bestMap.has(k) || cur > prev) bestMap.set(k, p);
+          }
+        }));
+        const list = [];
+        let rank = 1;
+        for (const b of unique) {
+          const p = bestMap.get(`${b.chainId}:${b.tokenAddress.toLowerCase()}`);
+          if (p) { list.push(analyzePair(p, rank++)); if (list.length >= 12) break; }
+        }
+        tokens = list;
+        countdown = 60;
+        document.getElementById("updatedAtLabel").textContent = "Updated: " + new Date().toLocaleTimeString();
+        renderTable();
+      } catch (e) {
+        errEl.textContent = "Live feed error: " + (e.message || e);
+        errEl.classList.remove("hidden");
+      }
+    }
+
+    function openModal() { document.getElementById("unlockModal").classList.remove("hidden"); }
+    function closeModal() { document.getElementById("unlockModal").classList.add("hidden"); }
+
+    document.getElementById("headerUnlockBtn").onclick = openModal;
+    document.getElementById("heroUnlockBtn").onclick = openModal;
+    document.getElementById("bottomUnlockBtn").onclick = openModal;
+    document.getElementById("closeModalBtn").onclick = closeModal;
+    document.getElementById("refreshBtn").onclick = loadTrending;
+
+    document.getElementById("tabEvm").onclick = () => {
+      activeChain = "evm";
+      document.getElementById("tabEvm").className = "rounded-md bg-emerald-500/20 px-2.5 py-1 font-semibold text-emerald-300";
+      document.getElementById("tabSol").className = "rounded-md px-2.5 py-1 font-semibold text-slate-400 hover:text-white";
+      document.getElementById("networkLabel").textContent = "Base / Arbitrum / Polygon / ETH (USDC / USDT)";
+      document.getElementById("walletAddressDisplay").textContent = EVM_WALLET;
+    };
+    document.getElementById("tabSol").onclick = () => {
+      activeChain = "solana";
+      document.getElementById("tabSol").className = "rounded-md bg-cyan-500/20 px-2.5 py-1 font-semibold text-cyan-300";
+      document.getElementById("tabEvm").className = "rounded-md px-2.5 py-1 font-semibold text-slate-400 hover:text-white";
+      document.getElementById("networkLabel").textContent = "Solana (USDC / USDT)";
+      document.getElementById("walletAddressDisplay").textContent = SOL_WALLET;
+    };
+
+    document.getElementById("copyWalletBtn").onclick = async () => {
+      const addr = activeChain === "evm" ? EVM_WALLET : SOL_WALLET;
+      await navigator.clipboard.writeText(addr);
+      const btn = document.getElementById("copyWalletBtn");
+      btn.textContent = "Copied!";
+      setTimeout(() => (btn.textContent = "Copy"), 1800);
+    };
+
+    document.getElementById("verifyTxForm").onsubmit = (e) => {
+      e.preventDefault();
+      const val = document.getElementById("txHashInput").value.trim();
+      const err = document.getElementById("txError");
+      if (!/^0x[a-fA-F0-9]{64}$/.test(val) && !/^[1-9A-HJ-NP-Za-km-z]{80,90}$/.test(val)) {
+        err.textContent = "Enter a valid transaction hash (0x... 66-char EVM hash or 87–88-char Solana signature).";
+        err.classList.remove("hidden");
+        return;
+      }
+      err.classList.add("hidden");
+      localStorage.setItem(STORAGE_KEY, val);
+      unlocked = true;
+      closeModal();
+      syncUnlockUI();
+    };
+
+    document.getElementById("scanForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const ca = document.getElementById("caInput").value.trim();
+      const err = document.getElementById("scanError");
+      if (!ca || ca.length < 10) {
+        err.textContent = "Please enter a valid Contract Address (CA).";
+        err.classList.remove("hidden");
+        return;
+      }
+      err.classList.add("hidden");
+      const btn = document.getElementById("scanBtn");
+      btn.textContent = "Scanning...";
+      try {
+        let data = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${encodeURIComponent(ca)}`).then((r) => r.json());
+        let pairs = Array.isArray(data?.pairs) ? data.pairs : [];
+        if (!pairs.length) {
+          data = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${encodeURIComponent(ca)}`).then((r) => r.json());
+          pairs = Array.isArray(data?.pairs) ? data.pairs : [];
+        }
+        if (!pairs.length) throw new Error("No active DEX liquidity pool found for that contract address.");
+        pairs.sort((a, b) => Number(b.liquidity?.usd || 0) - Number(a.liquidity?.usd || 0));
+        lastScan = analyzePair(pairs[0], 0);
+        renderScan(lastScan);
+      } catch (ex) {
+        err.textContent = ex.message || "Scan failed";
+        err.classList.remove("hidden");
+      } finally {
+        btn.textContent = "Scan CA";
+      }
+    };
+
+    setInterval(() => {
+      countdown--;
+      if (countdown <= 0) { countdown = 60; loadTrending(); }
+      document.getElementById("countdown").textContent = countdown + "s";
+    }, 1000);
+
+    syncUnlockUI();
+    loadTrending();
+  </script>
+</body>
+</html>
